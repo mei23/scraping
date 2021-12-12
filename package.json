@@ -1,0 +1,19 @@
+{
+  "name": "scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "built/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "16.11.12",
+    "cacheable-lookup": "6.0.4",
+    "got": "11.5.1",
+    "hpagent": "0.1.2",
+    "iconv-lite": "0.6.3",
+    "jschardet": "3.0.0",
+    "ts-node": "10.4.0",
+    "typescript": "4.5.3"
+  }
+}
