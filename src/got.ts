@@ -4,6 +4,7 @@ import got from 'got';
 import * as Got from 'got';
 import { StatusError } from './status-error';
 import { detectEncoding, toUtf8 } from './encoding';
+import * as cheerio from 'cheerio';
 
 async function main(url: string) {
 	const json = await getHtml(url);
@@ -14,7 +15,7 @@ const RESPONSE_TIMEOUT = 30 * 1000;
 const OPERATION_TIMEOUT = 60 * 1000;
 const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 
-export async function getHtml(url: string): Promise<void> {
+export async function getHtml(url: string) {
 	const res = await getResponse({
 		url,
 		headers: {
@@ -23,8 +24,15 @@ export async function getHtml(url: string): Promise<void> {
 	});
 
 	const encoding = detectEncoding(res.headers['content-type'], res.rawBody);
-	const str = toUtf8(res.rawBody, encoding);
-	console.log(str);
+	const body = toUtf8(res.rawBody, encoding);
+	const $ = cheerio.load(body);
+	//console.log(str);
+	//console.log(inspect($));
+
+	return {
+		body,
+		$,
+	}
 }
 
 export async function getResponse(args: { url: string, headers: Record<string, string> }) {

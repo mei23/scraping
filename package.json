@@ -7,8 +7,10 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@types/cheerio": "0.22.18",
     "@types/node": "16.11.12",
     "cacheable-lookup": "6.0.4",
+    "cheerio": "0.22.0",
     "got": "11.5.1",
     "hpagent": "0.1.2",
     "iconv-lite": "0.6.3",
