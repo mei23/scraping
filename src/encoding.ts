@@ -1,5 +1,6 @@
 import * as iconv from 'iconv-lite';
 import * as jschardet from 'jschardet';
+import { inspect } from 'util';
 
 const DEBUG = true;
 
@@ -12,6 +13,16 @@ const regCharset = new RegExp(/charset\s*=\s*["']?([\w-]+)/, 'i');
  * @returns encoding
  */
 export function detectEncoding(contentType?: string, body?: Buffer): string {
+	// By detection
+	const detected = jschardet.detect(body, { minimumThreshold: 0.99 });
+	{
+		const candicate = detected.encoding;
+		if (DEBUG) console.log(`charset from content: ${candicate}`);
+		const encoding = toEncoding(candicate);
+		if (DEBUG) console.log(`charset from content decided: ${encoding}`);
+		if (encoding != null) return encoding;
+	}
+
 	// From meta
 	const matchMeta = body?.toString('ascii').match(regCharset);
 	if (matchMeta) {
@@ -29,16 +40,6 @@ export function detectEncoding(contentType?: string, body?: Buffer): string {
 		if (DEBUG) console.log(`charset from header: ${candicate}`);
 		const encoding = toEncoding(candicate);
 		if (DEBUG) console.log(`charset from header decided: ${encoding}`);
-		if (encoding != null) return encoding;
-	}
-
-	// By detection
-	const detected = jschardet.detect(body);
-	{
-		const candicate = detected.encoding;
-		if (DEBUG) console.log(`charset from content: ${candicate}`);
-		const encoding = toEncoding(candicate);
-		if (DEBUG) console.log(`charset from content decided: ${encoding}`);
 		if (encoding != null) return encoding;
 	}
 
