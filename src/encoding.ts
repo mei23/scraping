@@ -34,6 +34,7 @@ export function detectEncoding(contentType?: string, body?: Buffer): string {
 	}
 
 	// From HTTP heaer
+	/*
 	const matchHader= contentType?.match(regCharset);
 	if (matchHader) {
 		const candicate = matchHader[1];
@@ -42,6 +43,7 @@ export function detectEncoding(contentType?: string, body?: Buffer): string {
 		if (DEBUG) console.log(`charset from header decided: ${encoding}`);
 		if (encoding != null) return encoding;
 	}
+	*/
 
 	return 'utf-8';
 }
