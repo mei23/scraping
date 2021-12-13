@@ -35,7 +35,7 @@ export async function getHtml(url: string) {
 	}
 }
 
-export async function getResponse(args: { url: string, headers: Record<string, string> }) {
+async function getResponse(args: { url: string, headers: Record<string, string> }) {
 	const timeout = RESPONSE_TIMEOUT;
 	const operationTimeout = OPERATION_TIMEOUT;
 

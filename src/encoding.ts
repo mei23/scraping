@@ -12,16 +12,6 @@ const regCharset = new RegExp(/charset\s*=\s*["']?([\w-]+)/, 'i');
  * @returns encoding
  */
 export function detectEncoding(contentType?: string, body?: Buffer): string {
-	// From HTTP heaer
-	const matchHader= contentType?.match(regCharset);
-	if (matchHader) {
-		const candicate = matchHader[1];
-		if (DEBUG) console.log(`charset from header: ${candicate}`);
-		const encoding = toEncoding(candicate);
-		if (DEBUG) console.log(`charset from header decided: ${encoding}`);
-		if (encoding != null) return encoding;
-	}
-
 	// From meta
 	const matchMeta = body?.toString('ascii').match(regCharset);
 	if (matchMeta) {
@@ -29,6 +19,16 @@ export function detectEncoding(contentType?: string, body?: Buffer): string {
 		if (DEBUG) console.log(`charset from meta: ${candicate}`);
 		const encoding = toEncoding(candicate);
 		if (DEBUG) console.log(`charset from meta decided: ${encoding}`);
+		if (encoding != null) return encoding;
+	}
+
+	// From HTTP heaer
+	const matchHader= contentType?.match(regCharset);
+	if (matchHader) {
+		const candicate = matchHader[1];
+		if (DEBUG) console.log(`charset from header: ${candicate}`);
+		const encoding = toEncoding(candicate);
+		if (DEBUG) console.log(`charset from header decided: ${encoding}`);
 		if (encoding != null) return encoding;
 	}
 
